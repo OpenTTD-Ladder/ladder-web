@@ -1,5 +1,6 @@
 INSTALLED_APPS = (
     'design',
+    'util',
 
     'django.contrib.auth',
     'django.contrib.contenttypes',
