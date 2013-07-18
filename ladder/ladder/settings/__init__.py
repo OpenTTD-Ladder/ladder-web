@@ -83,14 +83,11 @@ SECRET_KEY = 'hp4_fkh=a(64x%a7#6)i%d@036@+)duzp10h+loo0de0#n&c&v'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
+    #'django.template.loaders.filesystem.Loader',
+    'design.loader.Loader',
     'django.template.loaders.app_directories.Loader',
+#     'django.template.loaders.eggs.Loader',
 )
-
-if not DEBUG:
-    TEMPLATE_LOADERS = (
-        ('django.template.loaders.cached.Loader', TEMPLATE_LOADERS),
-        )
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -107,3 +104,9 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+
+if not DEBUG:
+    TEMPLATE_LOADERS = (
+        ('django.template.loaders.cached.Loader', TEMPLATE_LOADERS),
+        )
+
