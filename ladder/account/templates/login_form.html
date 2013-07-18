@@ -1,0 +1,36 @@
+{% load i18n %}
+<div class="row">
+    <div class="offset3 span6 well">
+        <legend>{% trans 'Please sign in' %}</legend>
+        <div class="row">
+            <div class="span2 hidden-phone">
+                <img src="{{STATIC_URL}}img/account/login_logo.png">
+            </div>
+            <div class="span4">
+                
+                {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                <div class="alert alert-error"><a class="close" data-dismiss="alert" href="#">&times;</a> {{error}}</div>
+                {% endfor %}
+                {% endif %}
+                <form action="{% url 'account:login' %}" method="post" id="login-form" class="">{% csrf_token %}
+                    <div class="hide">
+                        <input type="hidden" name="this_is_the_login_form" value="1" />
+                        <input type="hidden" name="next" value="{{ next }}" />
+                    </div>
+                    <input type="text" id="id_username" class="span4" name="username" placeholder="{% trans 'Username' %}">
+                    <input type="password" id="id_password" class="span4" name="password" placeholder="{% trans 'Password' %}">
+
+                    {% url 'account:site_password_reset' as password_reset_url %}
+                    {% if password_reset_url %}
+                    <a href="{{password_reset_url}}">{% trans 'Password Reset' %}</a>
+                    {% endif %}
+                    <button type="submit" name="submit" class="btn btn-info {% if not password_reset_url %}btn-block{% endif %}">Sign in</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+        <script type="text/javascript">
+        document.getElementById('id_username').focus()
+        </script>

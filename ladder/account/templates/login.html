@@ -1,0 +1,19 @@
+{% extends "base_site.html" %}
+{% load i18n %}
+
+{% block content-messages %}
+{% if form.errors and not form.non_field_errors%}
+<div class="row">
+    <span class="offset2 span8">
+        <div class="alert alert-error">{% blocktrans count counter=form.errors.items|length %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}</div>
+    </span>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+{% include "account/login_form.html" %}
+{% endblock %}
