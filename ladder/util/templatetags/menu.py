@@ -13,8 +13,9 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 @receiver(pre_save, sender=User)
-def user_saved(sender, **kwargs):
-    invalidate_menu(sender.username)
+def user_saved(sender, instance = None, **kwargs):
+    user = instance or sender
+    invalidate_menu(user.username)
 
 @receiver(user_logged_in)
 def user_logged_in(sender, request, user, **kwargs):
