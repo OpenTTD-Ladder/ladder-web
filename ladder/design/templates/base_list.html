@@ -1,0 +1,61 @@
+{% extends "base_site.html" %}
+{% load design i18n qargs %}
+
+{% block content %}{% block content-header %}{% endblock content-header %}<div class="row">
+    {% spaceless %}
+    <div class="span10">
+        <form class="form-horizontal" method="GET" action="{% qargs 'q' %}{% endqargs %}">
+            <div class="control-group">
+                <div class="input-prepend input-append">
+                    <span class="add-on"><i class="icon-search"></i></span>
+                    <input type="text" name="q" class="span3" placeholder="..." value="{{qargs.q}}" />
+                    <button class="btn" type="submit">{% trans 'Search' %}</button>
+                </div>
+                {% if count != count_unfiltered %}
+                <span class="small quiet">
+                    {% blocktrans count count=count %}{{count}} result{% plural %}{{count}} results{% endblocktrans %}
+                    (<a href="?">{% blocktrans with count=count_unfiltered %}{{count}} total{% endblocktrans %}</a>)
+                </span>
+                {% endif %}
+            </div>
+        </form>
+    </div>    
+    <div class="span2 pull-right">
+        <div class="well" style="padding: 8px 0;">
+            <ul class="nav nav-list"> 
+
+                <li class="nav-header">
+                    <h3>{% trans 'Filter' %}</h3>
+                </li>
+                <li class="divider"></li>
+                {% block filters %}
+                {% endblock filters %}
+            </ul>
+        </div>
+    </div>
+    <div class="span10">
+        <table class="table table-condensed {% block result-table-class %}{% endblock result-table-class %}">
+            <thead>
+                {% block result-header %}
+                {% endblock result-header %}
+            </thead>
+            <tbody>
+{% for item in items %}{% block result-item %}{% endblock result-item %}{% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination pagination-centered">
+            <ul>
+            {% for num in items.page_range %}
+                <li class="{% if not num %}disabled{% elif num == items.number %}active{% endif %}">
+                {% if not num %}<a href="#"> ... </a>{% else %}<a href="{% if num != items.number %}{% qargs '' %}?page={{num}}{% endqargs %}{% else %}#{% endif %}"> {{num}} </a>{% endif %}
+                </li>
+            {% endfor %}
+            </ul><br />
+            {% blocktrans count count=count %}{{count}} result{% plural %}{{count}} results{% endblocktrans %}
+            {% if count != count_unfiltered %}
+               (<a href="?">{% blocktrans with count=count_unfiltered %}{{count}} total{% endblocktrans %}</a>)
+            {% endif %}
+        </div>
+    </div>
+    {% endspaceless %}
+</div>{% endblock content %}

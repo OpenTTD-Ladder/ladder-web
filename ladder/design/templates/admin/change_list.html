@@ -1,0 +1,84 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_list design %}
+{% load bootstrap_admin_list %}
+{% load admin_urls %}
+
+{% block stylesheet %}
+{{block.super}}
+{{ media.css }}
+{% if not actions_on_top and not actions_on_bottom %}
+<style>
+	#changelist table thead th:first-child {width: inherit}
+</style>
+{% endif %}
+
+{% endblock %}
+
+
+{% block javascript %}
+{% if cl.formset or action_form %}
+{% url 'admin:jsi18n' as jsi18nurl %}
+<script type="text/javascript" src="{{ jsi18nurl|default:'../../jsi18n/' }}"></script>
+{% endif %}
+{{ media.js }}
+<script type="text/javascript">
+(function($) {
+    $(document).ready(function($) {
+        $("tr input.action-select").actions();
+		try { updateCounter(); } catch (err) {}
+    });
+})(django.jQuery);
+</script>
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% block breadcrumbs %}
+{% if not is_popup %}
+<ul class="breadcrumb">
+	<li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a> <span class="divider">/</span></li>
+	<li><a href="{% url 'admin:app_list' app_label=cl.opts.app_label %}">{{ app_label|capfirst|escape }}</a> <span class="divider">/</span></li>
+	<li>{{ cl.opts.verbose_name_plural|capfirst }}</li>
+</ul>
+{% endif %}
+{% endblock %}
+
+{% block content-messages %}
+{{block.super}}
+{% if cl.formset.errors %}
+<div class="row">
+	<div class="span12">
+		<div class="alert alert-error">{% blocktrans count cl.formset.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}</div>
+		{% if cl.formset.non_form_errors %}{% for err in cl.formset.non_form_errors %}<div class="alert alert-error">{{err}}</div>{% endfor %}{% endif %}
+	</div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row" id="changelist">
+	<div class="{% if cl.has_filters %}span10{% else %}span12{% endif %}">{% if cl.search_fields %}
+		<div class="row">
+			<div class="{% if cl.has_filters %}span7{% else %}span9{% endif %} input-block-level">{% block search %}{% search_form cl %}{% endblock %}</div>
+			<div class="span3 input-block-level add-permission">{% if has_add_permission %}<a class="pull-right btn btn-medium" href="{% url cl.opts|admin_urlname:'add' %}{% if is_popup %}?_popup=1{% endif %}"><i class="icon-plus"></i> {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}</a>{% endif %}&nbsp;</div>
+		</div>{% endif %}
+<form id="changelist-form" action="" method="post"{% if cl.formset.is_multipart %} enctype="multipart/form-data"{% endif %}>{% csrf_token %}
+{% if cl.formset %}<div>{{ cl.formset.management_form }}</div>{% endif %}
+		<div class="row">
+			<div class="{% if cl.has_filters %}span7{% else %}span9{% endif %} input-block-level">{% if action_form and actions_on_top and cl.full_result_count %}{% admin_actions %}{% endif %}</div>
+			{% if not cl.search_fields %}{% if has_add_permission %}<div class="span3 input-block-level"><a class="pull-right btn btn-medium" href="{% url cl.opts|admin_urlname:'add' %}{% if is_popup %}?_popup=1{% endif %}"><i class="icon-plus"></i> {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}</a></div>{% endif %}{% endif %}
+		</div>
+		{% if filterobject.date_hierarchy %}
+		<div class="row">
+			<div class="{% if cl.has_filters %}span10{% else %}span12{% endif %} input-block-level">{% block date_hierarchy %}{% date_hierarchy cl %}{% endblock %}</div>
+		</div>
+		{% endif %}
+		<div class="row"><div class="{% if cl.has_filters %}span10{% else %}span12{% endif %}">{% block result_list %}{% result_list cl %}{% endblock %}</div></div>
+		<div class="row"><div class="span5">{% if action_form and actions_on_bottom and cl.full_result_count %}{% admin_actions %}{% endif %}</div></div>
+		<div class="row"><div class="{% if cl.has_filters %}span10{% else %}span12{% endif %}">{% block pagination %}{% pagination cl %}{% endblock %}</div></div>
+	</div>
+{% block filters %}{% if cl.has_filters %}<div class="span2"><div class="well" style="padding: 8px 0px;"><ul class="nav nav-list"><li class="nav-header"><h3>{% trans 'Filter' %}</h3></li><li class="divider"></li>{% for spec in cl.filter_specs %}{% admin_list_filter cl spec %}{% endfor %}</ul></div></div>{% endif %}{% endblock %}
+{% if cl.formset %}<div>{{ cl.formset.management_form }}</div>{% endif %}
+</form>
+</div>
+{% endblock %}

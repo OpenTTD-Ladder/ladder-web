@@ -1,0 +1,2 @@
+{% load menu %}
+<ul class="nav {{extra_css}}">{% for index,item in menu %}{% render_menu_item item %}{% endfor %}</ul>

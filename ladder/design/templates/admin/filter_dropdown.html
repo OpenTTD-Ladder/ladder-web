@@ -1,0 +1,5 @@
+{% load i18n %}
+<script type="text/javascript">var go_from_select = function(opt) { window.location = window.location.pathname + opt };</script>
+<li class="nav-header filter-item">{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</li>
+<li class="filter-item"><select style="width: 95%;" onchange="go_from_select(this.options[this.selectedIndex].value)">
+{% for choice in choices %}<option{% if choice.selected %} selected="selected"{% endif %} value="{{ choice.query_string|iriencode }}">{{ choice.display }}</option>{% endfor %}</select></li>

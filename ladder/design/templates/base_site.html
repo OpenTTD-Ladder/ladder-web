@@ -1,0 +1,75 @@
+{% load design i18n menu %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Destiny</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="{{STATIC_URL}}ico/favicon.ico">
+    <!-- Bootstrap -->
+{% static_file "css" global_css %}{% static_file "css" page_css %}
+{% block css_common %}{% endblock css_common %}{% block extrastyle %}{% endblock %}
+    <script type="text/javascript">
+      window.__media_prefix__ = "{% filter escapejs %}{{STATIC_URL}}{% endfilter %}";
+      window.__admin_media_prefix__ = "{% filter escapejs %}{{STATIC_URL}}admin/{% endfilter %}";
+      window.__csrf_token__ = "{% filter escapejs %}{{csrf_token}}{% endfilter %}";
+    </script>
+{% block js_head %}{% endblock %}{% block extrahead %}{% endblock %}
+  </head>
+  <body>
+    <div id="wrap">
+      {% if not is_popup %}
+      <!-- Fixed navbar -->
+      <div class="navbar navbar-fixed-top">{% spaceless %}
+        <div class="navbar-inner">
+          <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="{% block brand-url %}{% url 'index' %}{% endblock %}">Destiny</a>
+            <div class="nav-collapse collapse">
+              {% block menu %}{% show_menu "left" "pull-left" %}{% show_menu "right" "pull-right" %}{% endblock menu %}
+            </div><!--/.nav-collapse -->
+          </div>
+        </div>{% endspaceless %}
+      </div>
+      {% endif %}
+      <!-- Begin page content -->
+      <div class="container">
+        {% block content_outer %}
+        {% block content-messages %}{% spaceless %}
+          {% if messages %}
+              <div class="row">
+                <div class="span12">
+                  {% for msg in messages %}
+                  <div class="alert{% if msg.tags %} {{msg.tags}}{% endif %}">
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                    {{msg}}
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+        {% endspaceless %}{% endblock content-messages %}
+        {% block content %}{% endblock content %}{% endblock content_outer %}
+      </div>
+      <div id="push"></div>
+    </div>
+    <div id="footer">{% spaceless %}
+      <div class="navbar navbar-fixed-bottom">
+        <div class="navbar-inner">
+          <div class="container">
+              <ul class="nav pull-left">
+              </ul>
+              <ul class="nav pull-right">
+              </ul>
+          </div>
+        </div>
+      </div>{% endspaceless %}
+    </div>
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  {% static_file "js" global_js %}{% static_file "js" page_js %}{% block js_common %}{% block javascript %}{% endblock javascript %}{% endblock js_common %}  </body>
+</html>

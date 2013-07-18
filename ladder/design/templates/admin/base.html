@@ -1,0 +1,22 @@
+{% extends "base_site.html" %}
+{% load admin_static design i18n menu %}
+
+{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+
+{% block body %}class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"{% endblock %}
+
+{% block brand-url %}{% url 'admin:index' %}{% endblock %}
+
+{% block content_outer %}
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+	<li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
+</ul>
+{% endblock %}
+{% block content-messages %}{{block.super}}{% endblock %}
+{% block content %}{% endblock content %}
+{% endblock content_outer %}
+
+{% if not is_popup %}
+{% block menu %}{% show_menu "admin-left" "pull-left" %}{% show_menu "admin-right" "pull-right" %}{% endblock menu %}
+{% endif %}

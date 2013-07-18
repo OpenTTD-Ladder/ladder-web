@@ -1,0 +1,12 @@
+{% load menu %}{% spaceless %}
+<li{% if sub or css %} class="{{css|default:''}}{% if sub %} dropdown{% if menulevel > 0 %}-submenu{% endif %}{% endif %}"{% endif %} {{attrs}}>
+    {% if url or sub %}<a {% if sub %}class="dropdown-toggle" data-toggle="dropdown" {% endif %}href="{{url|default:"#"}}"{% if target %} target="{{target}}"{% endif %}>{% endif %}
+        {% if icon %}<i class="{{icon}}"></i> {% endif %}{{text}}{% if sub and menulevel == 0 %} <b class="caret"></b>{% endif %}
+    {% if url or sub %}</a>{% endif %}
+    {% if sub %}
+    <ul class="dropdown-menu">
+        {% for i,sub in sub %}{% render_menu_item sub %}{% endfor %}
+    </ul>
+    {% endif %}
+</li>
+{% endspaceless %}

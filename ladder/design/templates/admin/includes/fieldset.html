@@ -1,0 +1,14 @@
+{% load design %}<fieldset class="module aligned {{ fieldset.classes }}">
+    {% if fieldset.name %}<legend>{{ fieldset.name }} {% if fieldset.description %}<small class="description">{{ fieldset.description|safe }}</small>{% endif %}</legend>{% endif %}
+    {% for line in fieldset %}<div class="control-group row {% if line.fields|length_is:'1' and line.errors %} error{% endif %}{% for field in line %}{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% endfor %}">
+            {% for field in line %}
+                <div style="display: inline-block; float: left;" class="{% if line.fields|length_is:'1' %}span12{% else %}span6{% endif %}{% if field.field.errors %} alert{% endif %}">
+                    {% if field.is_checkbox %}{{ field.field }} <label for="{{field.field.auto_id}}" class="control-label">{% if field.field.field.required %}<i class="icon-asterisk"></i> {% endif %}{{ field.field.label }}</label>
+                    {% else %}<label for="{{field.field.auto_id}}" class="control-label">{% if field.field.field.required %}<i class="icon-asterisk"></i> {% endif %}{{ field.field.label }}:</label>{% if field.is_readonly %}<span id="{{field.field.html_name}}" style="line-height: 28px;">{{ field.contents }}</span>{% else %}{{ field.field }}{% endif %}
+                    {% endif %}
+					{% if field.field.errors %}<br /><span class="alert alert-error">{% for err in field.field.errors %}{{err}} <br/>{% endfor %}</span>{% endif %}
+{% if field.field.help_text %}<p class="help-text">{{ field.field.help_text|safe }}</p>{% endif %}
+                </div>
+            {% endfor %}
+        </div>{% endfor %}
+</fieldset>

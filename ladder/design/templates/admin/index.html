@@ -1,0 +1,65 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static design %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<div class="row app-list">
+	<div class="span9 accordion">
+		{% block main-block %}
+		{% if app_list %}
+		{% for app in app_list %}
+		<div class="accordion-group">
+			<h5 class="accordion-heading" data-target="#app-list-{{forloop.counter}}" data-toggle="collapse">
+					<i class="icon-star"></i>
+					<a href="{{ app.app_url }}" class="section">{% blocktrans with name=app.name %}{{ name }}{% endblocktrans %}</a>
+					<span class="pull-right help-text">{% blocktrans with name=app.name %}Models available in the {{ name }} application.{% endblocktrans %}</span> 
+			</h5>
+			<div class="accordion-body collapse{% if app.models|length < 8 %} in{% else %}{% if app_list|length == 1 %} in{% endif %}{% endif %}" id="app-list-{{forloop.counter}}" style="width: 100%">
+				<table class="table table-condensed table-accordion-content">
+					{% for model in app.models %}
+					<tr>
+						{% if model.admin_url %}<th width="*" scope="row"><i class="icon-th-list"></i> <a href="{{model.admin_url}}">{{model.name}}</a></th>{% else %}<th scope="row">{{model.name}}</th>{% endif %}{% spaceless %}
+						{% if model.admin_url %}<td class="hidden-phone input-small">
+                                    <form class="form-horizontal form-marginless" method="get" action="{{ model.admin_url }}">
+                                      <div class="input-append">
+                                        <input type="text" name="q" size="16" id="prependedInput" class="input-small input-mini" placeholder='{% trans 'Search' %} "{{ model.name }}"'>
+                                        <button class="btn btn-mini" type="submit"><i class="icon-search"></i></button>
+                                      </div>
+                                    </form>
+                                </td>{% else %}<td>&nbsp;</td>{% endif %}{% endspaceless %}
+						<td class="input-medium"><div class="btn-group">{% if model.add_url %}<a class="btn btn-mini input-mini" href="{{model.add_url}}">{% trans 'Add' %}</a>{% endif %}{% if model.admin_url %}<a class="btn btn-mini input-mini" href="{{model.admin_url}}">{% trans 'Change' %}</a>{% endif %}</div></td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+		{% endfor %}
+		{% endif %}
+		{% endblock %}
+	</div>
+	<div class="span3">
+		{% block sidebar %}
+		<table class="table table-bordered table-condensed">
+			<thead><tr><th>{% trans 'Recent Actions' %}</th></tr></thead>
+			<tbody>
+				{% load log %}
+				{% get_admin_log 10 as admin_log for_user user %}
+				{% if not admin_log %}
+				<tr><td><i class="icon-arrow-right"></i> {% trans 'None available' %}</td></tr>
+				{% else %}
+				{% for entry in admin_log %}
+				<tr>
+					<td {% if entry.content_type %}rel="tooltip-slow" title="{% filter capfirst %}{% trans entry.content_type.name %}{% endfilter %}"{% endif %} >
+						<i class="{% if entry.is_addition %}icon-plus{% endif %}{% if entry.is_change %}icon-pencil{% endif %}{% if entry.is_deletion %}icon-minus{% endif %}"></i>
+						{% if entry.is_deletion or not entry.get_admin_url %}{{ entry.object_repr }}{% else %}<a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>{% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+				{% endif %}
+			</tbody>
+		</table>
+		{% endblock %}
+	</div>
+</div>
+{% endblock %}

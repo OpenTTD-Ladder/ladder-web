@@ -1,0 +1,12 @@
+{% extends "admin/index.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+{% if not is_popup %}<ul class="breadcrumb">
+	<li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a> <span class="divider">/</span></li>
+	{% for app in app_list %}
+	<li>{% blocktrans with app.name as name %}{{ name }}{% endblocktrans %}</li>
+	{% endfor %}
+</ul>{% endif %}{% endblock %}
+
+{% block sidebar %}{% endblock %}

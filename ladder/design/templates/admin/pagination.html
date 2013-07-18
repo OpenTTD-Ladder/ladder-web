@@ -1,0 +1,12 @@
+{% load bootstrap_admin_list %}
+{% load i18n design %}
+<div class="pagination pagination-centered pagination-nomargin">
+{% if pagination_required %}
+<ul>{% for i in page_range %}{% paginator_number cl i %}{% endfor %}</ul>
+</div>
+<div class="pagination-centered">
+{% endif %}
+{{ cl.result_count }} {% ifequal cl.result_count 1 %}{{ cl.opts.verbose_name }}{% else %}{{ cl.opts.verbose_name_plural }}{% endifequal %}
+{% if show_all_url %}&nbsp;&nbsp;<a href="{{ show_all_url }}" class="showall">{% trans 'Show all' %}</a>{% endif %}
+{% if cl.formset and cl.result_count %}<button type="submit" name="_save" class="btn btn-primary">{% trans 'Save' %}</button>{% endif %}
+</div>
