@@ -10,6 +10,8 @@ global_js = [
 global_css = [
     (-99,   'bootstrap/bootstrap.css'),
     (-98,   'fontawesome/font-awesome.css'),
+    (0,     'design/admin.css'),
+    (0,     'design/design.css'),
 ]
 
 compile_js = [
@@ -17,5 +19,7 @@ compile_js = [
 ]
 
 compile_css = [
+    'design/admin.less',
+    'design/design.less',
     'fontawesome/font-awesome.less',
 ]

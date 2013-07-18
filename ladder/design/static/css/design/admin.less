@@ -1,0 +1,259 @@
+/* Generic Changes to Bootstrap */
+.pagination-condensed { 
+    margin: 4px 0; 
+}
+.breadcrumb { 
+    margin: 0 0 8px; 
+}
+
+
+.help-text {
+    font-size: 10px;
+    color: #999;
+    margin-bottom: 2px;
+}
+
+/* Changes to Django Admin Forms + Bootstrap */
+.module {
+    legend {
+        margin-bottom: 7px;
+    }
+    &.aligned {
+        .control-label {
+            width: 100px;
+            padding-right: 5px;
+        }
+    }
+}
+
+.control-group {
+    margin-bottom: 2px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    .file-upload {
+        padding-left: 110px;
+        br {
+            display: none;
+            line-height: 1px;
+        }
+    }
+    &.row ul {
+        list-style: none;
+        padding-top: 5px;
+        padding-left: 110px;
+        margin-left: 0;
+        li label {
+            margin-bottom: 1px;
+            display: inline-block;
+            input {
+                margin-top: 0px;
+            }
+        }
+    }
+    div.alert {
+        margin-left: 25px;
+        margin-bottom: 0px;
+        padding: 1px 0;
+        span.alert {
+            display: inline-block;
+            margin-bottom: 0px;
+            margin-left: 105px; 
+            margin-top: 2px;
+        }
+    }
+}
+
+.tabular .alert {
+    margin-bottom: 4px;
+    padding: 4px 15px 4px 7px;
+}
+
+.empty-form {
+    display: none;
+}
+.form-row {
+    border-bottom: 1px solid #EEEEEE;
+    font-size: 11px;
+    overflow: hidden;
+    padding: 8px 12px;
+}
+
+.form-actions.form-actions-condensed {
+    margin: 0;
+    padding: 17px 20px 18px;
+}
+
+/* The remove icon for the tabular inline is a twat */
+/* the js file expects a single class */
+/* so we combine .icon-remove and .hide-text into */
+/* 1 class */
+.icon-remove-hide-text {
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+    background-position: -312px 0;
+}
+
+a.add-another {
+    vertical-align: top;
+    padding-top: 4px;
+    text-align: center;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+
+}
+
+/* Date/Time widgets */
+
+
+p.datetime {
+    float: left;
+    margin-left: 10px !important;
+    .vDateField {
+        margin-left: 1px;
+        margin-bottom: 2px;
+    }
+}
+
+/* Multi-select Widget */
+.control-group.row div.selector {
+    display: inline-block;
+
+    .selector-available,
+    .selector-chosen {
+        float: left;
+        margin-bottom: 5px;
+        text-align: center;
+        width: 200px;
+        h2 {
+            border: 1px solid #CCC;
+            -webkit-border-radius: 3px 3px 0 0;
+            -moz-border-radius: 3px 3px 0 0;
+            border-radius: 3px 3px 0 0;
+            line-height: 25px;
+            margin: 0px;
+            font-size: 12px;
+        }
+        select {
+            border: 1px solid #CCC;
+            -webkit-border-radius: 0 0 3px 3px;
+            -moz-border-radius: 0 0 3px 3px;
+            border-radius: 0 0 3px 3px;
+            width: 200px;
+        }
+    }
+    .selector-available {
+        p.selector-filter {
+            border-width: 0 1px;
+            border-style: solid;
+            border-color: #CCC;
+            font-size: 10px;
+            margin: 0px;
+            padding: 3px;
+            text-align: left;
+            label {
+                display: inline-block;
+            }
+            input {
+                display: inline-block;
+                width: 150px;
+            }
+        }
+        select {
+            height: 12.2em;
+            margin-top: 0;
+        }
+    }
+    .selector-chosen {
+        select {
+            border-top-width: 0px;
+        }
+    }
+    ul.selector-chooser {
+        float: left;
+        height: 50px;
+        margin: 7em 2px 0;
+        padding: 0;
+        width: 22px;
+        li {
+            list-style-type: none;
+            margin: 0;
+            padding: 3px;
+        }
+        .selector-add,
+        .selector-remove {
+            display: block;
+            background: url(../../admin/img/selector-icons.gif) no-repeat scroll transparent;
+            display: block;
+            height: 16px;
+            overflow: hidden;
+            width: 16px;
+            cursor: default;
+            text-indent: 100%;
+            white-space: nowrap;
+        }
+        .selector-add {
+            background-position: 0 -161px;
+        }
+        .selector-remove {
+            background-position: 0 -109px;
+        }
+    }
+}
+
+.errorlist, .errorlist li {
+    list-style-type: none;
+}
+
+.action-checkbox-column {
+    width: 16px;
+}
+
+#changelist .actions span.all,
+#changelist .actions span.action-counter,
+#changelist .actions span.clear,
+#changelist .actions span.question {
+    display: none;
+}
+
+
+.clearable-file-input {
+    display: block;
+    padding-top: 5px;
+    label {
+        display: inline-block;
+        float: left;
+        padding-right: 10px;
+        text-align: right;
+    }
+}
+
+.app-list .accordion-heading {
+    padding: 5px;
+    margin: 0px;
+}
+
+
+.bottom-up, .bottom-up .dropdown-menu {top: auto; bottom: 100%; }
+
+.navbar {
+    .dropdown-menu {
+        &.bottom-up:before {
+            border-bottom: 0 solid transparent !important; 
+            border-top: 7px solid rgba(0, 0, 0, 0.2); 
+            top: auto !important; 
+            bottom: -7px;
+        }
+        &.bottom-up:after {
+            border-bottom: 0 solid transparent !important; 
+            border-top: 6px solid white;  
+            top: auto !important; 
+            bottom: -6px;
+        }
+        .divider {
+            margin: 3px 1px;
+        }
+    }
+}
