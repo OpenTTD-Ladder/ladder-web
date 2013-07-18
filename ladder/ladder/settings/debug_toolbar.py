@@ -3,7 +3,6 @@ ENABLE_DEBUG_TOOLBAR = True
 DEBUG_TOOLBAR_REQUEST_PARAM = "q"
 DEBUG_TOOLBAR_REQUEST_VALUE = "debug"
 
-
 def has_package(pkg):
     try:
         __import__(pkg)
@@ -11,22 +10,25 @@ def has_package(pkg):
     except ImportError:
         return False
 
+HAS_MEMCACHE_TOOLBAR = has_package('memcache_toolbar')
+HAS_TEMPLATE_TIMINGS = has_package('template_timings_panel')
+
 if ENABLE_DEBUG_TOOLBAR and not has_package('debug_toolbar'):
     ENABLE_DEBUG_TOOLBAR = False
 
 def custom_show_toolbar(request):
     if not ENABLE_DEBUG_TOOLBAR:
-            return False
+        return False
     if not request.user.is_superuser:
-            return False
+        return False
     if request.POST.get(DEBUG_TOOLBAR_REQUEST_PARAM, False) == DEBUG_TOOLBAR_REQUEST_VALUE:
-            request.POST = request.POST.copy()
-            del request.POST['q']
-            return True
+        request.POST = request.POST.copy()
+        del request.POST['q']
+        return True
     if request.GET.get(DEBUG_TOOLBAR_REQUEST_PARAM, False) == DEBUG_TOOLBAR_REQUEST_VALUE:
-            request.GET = request.GET.copy()
-            del request.GET['q']
-            return True
+        request.GET = request.GET.copy()
+        del request.GET['q']
+        return True
     return False
 
 if ENABLE_DEBUG_TOOLBAR:
@@ -40,11 +42,11 @@ if ENABLE_DEBUG_TOOLBAR:
         'debug_toolbar.panels.sql.SQLDebugPanel',
         'debug_toolbar.panels.profiling.ProfilingDebugPanel',
     )
-    if has_package('memcache_toolbar'):
+    if HAS_MEMCACHE_TOOLBAR:
         DEBUG_TOOLBAR_PANELS += (
             'memcache_toolbar.panels.pylibmc.PylibmcPanel',
             )
-    if has_package('template_timings_panel'):
+    if HAS_TEMPLATE_TIMINGS:
         DEBUG_TOOLBAR_PANELS += (
             'template_timings_panel.panels.TemplateTimings.TemplateTimings',
             )

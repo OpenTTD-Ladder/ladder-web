@@ -7,3 +7,9 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+from .debug_toolbar import ENABLE_DEBUG_TOOLBAR
+if ENABLE_DEBUG_TOOLBAR:
+    MIDDLEWARE_CLASSES += (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+        )
