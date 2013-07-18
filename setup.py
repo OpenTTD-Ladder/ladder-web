@@ -54,6 +54,9 @@ for dirpath, dirnames, filenames in os.walk(ladder_dir):
         package_files = package_data.setdefault('.'.join(parts), [])
         package_files.extend([os.path.join(path, f) for f in filenames])
 
+with open('requirements.txt') as fh:
+    required = fh.read().splitlines()
+
 setup(
     name='ladder-web',
     version='0.0.1',
@@ -66,6 +69,7 @@ setup(
     license='GPLv2',
     description='TBD',
     long_description=open('README.md').read(),
+    install_requires=required,
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
