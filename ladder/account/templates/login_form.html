@@ -18,12 +18,16 @@
                         <input type="hidden" name="this_is_the_login_form" value="1" />
                         <input type="hidden" name="next" value="{{ next }}" />
                     </div>
-                    <input type="text" id="id_username" class="span4" name="username" placeholder="{% trans 'Username' %}">
-                    <input type="password" id="id_password" class="span4" name="password" placeholder="{% trans 'Password' %}">
+                    <div class="control-group {% if form.username.errors %} error" rel="tooltip" title="{{form.username.errors|join:', '}}"{% else %}"{% endif %}>
+                        <input type="text" id="id_username" class="span4" name="username" placeholder="{% trans 'Username' %}">
+                    </div>
+                    <div class="control-group {% if form.password.errors %} error" rel="tooltip" title="{{form.password.errors|join:', '}}"{% else %}"{% endif %}>
+                        <input type="password" id="id_password" class="span4" name="password" placeholder="{% trans 'Password' %}">
+                    </div>
 
                     {% url 'account:password_reset' as password_reset_url %}
                     {% if password_reset_url %}
-                    <a href="{{password_reset_url}}">{% trans 'Password Reset' %}</a>
+                    <a href="{{password_reset_url}}">{% trans 'Password Reset' %}</a>&nbsp;
                     {% endif %}
                     <button type="submit" name="submit" class="btn btn-info {% if not password_reset_url %}btn-block{% endif %}">Sign in</button>
                 </form>
