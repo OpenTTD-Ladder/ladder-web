@@ -47,8 +47,16 @@
 	<div class="span12 input-block-level">
 		{% if change and not is_popup %}
 			<div class="btn-group pull-right">
-				<a class="btn" href="history/">{% trans "History" %}</a>
-				{% if has_absolute_url %}<a class="btn" href="../../../r/{{ content_type_id }}/{{ object_id }}/">{% trans "View on site" %}</a>{% endif%}
+				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+				    {% trans 'Actions' %}
+				    <span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+				{% block object-tools-items %}
+				<li><a href="history/">{% trans "History" %}</a></li>
+				{% if has_absolute_url %}<li><a href="../../../r/{{ content_type_id }}/{{ object_id }}/">{% trans "View on site" %}</a></li>{% endif%}
+				{% endblock %}
+				</ul>
 			</div>
 		{% endif %}
 	</div>
