@@ -4,6 +4,7 @@ global_js = [
     (-98,   'jquery.lazyload/jquery.lazyload.js'),
     (-95,   'bootstrap/bootstrap.js'),
     (-90,   'mustache/mustache.js'),
+    (-50,   'design/design.js'),
     (-1,    'holder/holder.js'),
 ]
 
@@ -15,7 +16,7 @@ global_css = [
 ]
 
 compile_js = [
-
+    'design/design.js',
 ]
 
 compile_css = [
