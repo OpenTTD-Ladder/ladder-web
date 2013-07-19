@@ -10,6 +10,7 @@ class AccountChangePassword(MenuItem):
     ]
     index   = 1
     text    = "::Change Password"
+    url     = "::account:password_change"
     icon    = "icon-pencil"
 
 class AccountAdminLink(MenuItem):

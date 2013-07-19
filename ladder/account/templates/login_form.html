@@ -21,7 +21,7 @@
                     <input type="text" id="id_username" class="span4" name="username" placeholder="{% trans 'Username' %}">
                     <input type="password" id="id_password" class="span4" name="password" placeholder="{% trans 'Password' %}">
 
-                    {% url 'account:site_password_reset' as password_reset_url %}
+                    {% url 'account:password_reset' as password_reset_url %}
                     {% if password_reset_url %}
                     <a href="{{password_reset_url}}">{% trans 'Password Reset' %}</a>
                     {% endif %}
