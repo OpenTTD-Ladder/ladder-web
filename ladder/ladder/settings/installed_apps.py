@@ -3,6 +3,7 @@ INSTALLED_APPS = (
     'util',
 
     'account',
+    'frontpage',
     'matchmaking',
 
     'translations',
