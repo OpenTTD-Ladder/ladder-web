@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     url(r'^$', TemplatePage.as_view(template_name = "base_site.html"), name = "index"),
     url(r'^account/', include('account.urls', namespace="account")),
 
+    url(r'^ckeditor/', include('ckeditor.urls')),
 )
 
 if 'django.contrib.admin' in settings.INSTALLED_APPS:

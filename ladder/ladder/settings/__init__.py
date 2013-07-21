@@ -4,6 +4,8 @@ CURRENT_DIR             = os.path.dirname(__file__)
 APP_DIR                 = os.path.dirname(CURRENT_DIR)
 ROOT_DIR                = os.path.dirname(APP_DIR)
 
+from .path import CURRENT_DIR, APP_DIR, ROOT_DIR, MEDIA_ROOT, STATIC_ROOT
+
 from .admins import ADMINS, MANAGERS
 from .auth import AUTHENTICATION_BACKENDS, AUTH_USER_MODEL, LOGIN_URL, LOGIN_REDIRECT_URL, LOGOUT_URL
 from .cache import CACHES, CACHE_ENABLED, CACHE_MIDDLEWARE_SECONDS, SESSION_COOKIE_AGE, SESSION_ENGINE
@@ -13,6 +15,8 @@ from .debug_toolbar import ENABLE_DEBUG_TOOLBAR, DEBUG_TOOLBAR_PANELS, DEBUG_TOO
 from .installed_apps import INSTALLED_APPS
 from .log import LOGGING
 from .middlewares import MIDDLEWARE_CLASSES
+
+from .ckeditor import CKEDITOR_UPLOAD_PATH, CKEDITOR_RESTRICT_BY_USER, CKEDITOR_CONFIGS
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -29,7 +33,7 @@ TIME_ZONE = "Europe/Amsterdam"
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 SITE_ID = 1
 
@@ -48,20 +52,10 @@ LOCALE_PATHS = (
         os.path.join(ROOT_DIR, 'locale'),
 )
 
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')
-
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
 MEDIA_URL = '/media/'
-
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/var/www/example.com/static/"
-STATIC_ROOT = os.path.join(ROOT_DIR, 'static')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"

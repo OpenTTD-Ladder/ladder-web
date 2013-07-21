@@ -6,6 +6,7 @@ INSTALLED_APPS = (
     'matchmaking',
 
     'translations',
+    'ckeditor',
 
     'django.contrib.auth',
     'django.contrib.contenttypes',
