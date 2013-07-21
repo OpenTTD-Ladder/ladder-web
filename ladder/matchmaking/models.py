@@ -1,8 +1,9 @@
+from django.conf import settings
 from django.db import models
-from translations.models import Translatable, Translation
 from django.utils.translation import ugettext_lazy as _
 
-from django.conf import settings
+from translations.models import Translatable, Translation
+from ckeditor.fields import RichTextField
 
 import trueskill
 
@@ -42,4 +43,4 @@ class LadderTranslation(Translation):
 
     name            = models.CharField(max_length = 64)
     short_desc      = models.CharField(max_length = 255)
-    long_desc       = models.TextField()
+    long_desc       = RichTextField()
