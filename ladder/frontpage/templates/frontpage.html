@@ -18,7 +18,7 @@
                     {% endif %}
                     <div class="container">
                         <h1>
-                            <a href="">{{newsitem.translation.title}}</a>
+                            <a href="{% url 'frontpage:news-item' id=newsitem.pk slug=newsitem.translation.title|slugify %}">{{newsitem.translation.title}}</a>
                         </h1>
                         {{newsitem.translation.intro|safe}}
                         <blockquote class="nomargin nopadding" style="border-left: 0px solid transparent;">

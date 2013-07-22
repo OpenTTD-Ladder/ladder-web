@@ -6,7 +6,8 @@ from util.page import TemplatePage
 from frontpage.views import Frontpage
 
 urlpatterns = patterns('',
-    url(r'^$', Frontpage.as_view(), name = "index"),
+    url(r'^$',        Frontpage.as_view(), name = "index"),
+    url(r'^',         include('frontpage.urls', namespace="frontpage")),
     url(r'^account/', include('account.urls', namespace="account")),
 
     url(r'^ckeditor/', include('ckeditor.urls')),

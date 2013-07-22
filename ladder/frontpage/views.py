@@ -10,3 +10,16 @@ class Frontpage(Page):
         return self.render_to_response({
             'news': news,
             })
+
+class NewsItem(Page):
+    template_name = "frontpage/news.html"
+
+    def get(self, request, id, slug):
+        try:
+            item = News.objects.get(pk = id)
+        except (ValueError, News.DoesNotExist): 
+            return self.http404()
+
+        return self.render_to_response({
+            'item': item,
+            })

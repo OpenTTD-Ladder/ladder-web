@@ -1,0 +1,18 @@
+{% extends "base_site.html" %}
+{% load i18n %}
+
+{% block content %}{% spaceless %}
+<div class="row">
+    <div class="span12">
+        <h1>
+            {{item.translation.title}}
+        </h1>
+
+        {{item.translation.intro|safe}}
+
+        <hr>
+
+        {{item.translation.continued|safe}}
+    </div>
+</div>
+{% endspaceless %}{% endblock content %}
