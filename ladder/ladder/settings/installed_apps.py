@@ -7,7 +7,6 @@ INSTALLED_APPS = (
     'matchmaking',
 
     'translations',
-    'ckeditor',
 
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -19,6 +18,14 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+try:
+    import ckeditor
+    INSTALLED_APPS += (
+        'ckeditor',
+    )
+except ImportError:
+    pass
 
 
 from .debug_toolbar import ENABLE_DEBUG_TOOLBAR, HAS_MEMCACHE_TOOLBAR, HAS_TEMPLATE_TIMINGS
