@@ -47,3 +47,6 @@ class LadderTranslation(Translation):
     name            = models.CharField(max_length = 64)
     short_desc      = models.CharField(max_length = 255)
     long_desc       = RichTextField()
+
+    def __unicode__(self):
+        return self.name
