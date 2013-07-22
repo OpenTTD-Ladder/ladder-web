@@ -3,8 +3,10 @@ from django.conf import settings
 
 from util.page import TemplatePage
 
+from frontpage.views import Frontpage
+
 urlpatterns = patterns('',
-    url(r'^$', TemplatePage.as_view(template_name = "base_site.html"), name = "index"),
+    url(r'^$', Frontpage.as_view(), name = "index"),
     url(r'^account/', include('account.urls', namespace="account")),
 
     url(r'^ckeditor/', include('ckeditor.urls')),

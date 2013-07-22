@@ -11,6 +11,7 @@ except ImportError:
 class News(Translatable):
     author          = models.ForeignKey(settings.AUTH_USER_MODEL, related_name = "news_authored")
     authored        = models.DateTimeField(default = timezone.now)
+    background      = models.ImageField(upload_to = "images", blank = True, null = True)
 
     class Meta:
         verbose_name = "News Item"
@@ -19,7 +20,8 @@ class News(Translatable):
 class NewsTranslation(Translation):
     news            = models.ForeignKey(News, related_name='translations')
     title           = models.CharField(max_length = 64)
-    long_desc       = RichTextField()
+    intro           = RichTextField()
+    continued       = RichTextField()
 
     def __unicode__(self):
         return self.title
