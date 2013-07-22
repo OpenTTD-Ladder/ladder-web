@@ -3,7 +3,10 @@ from django.db import models
 from django.utils import timezone
 
 from translations.models import Translatable, Translation
-from ckeditor.fields import RichTextField
+try:
+    from ckeditor.fields import RichTextField
+except ImportError:
+    RichTextField = models.TextField
 
 class News(Translatable):
     author          = models.ForeignKey(settings.AUTH_USER_MODEL, related_name = "news_authored")

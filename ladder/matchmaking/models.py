@@ -3,7 +3,10 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from translations.models import Translatable, Translation
-from ckeditor.fields import RichTextField
+try:
+    from ckeditor.fields import RichTextField
+except ImportError:
+    RichTextField = models.TextField
 
 import trueskill
 
