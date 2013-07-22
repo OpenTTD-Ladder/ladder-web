@@ -20,8 +20,8 @@ class LadderAdmin(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         if obj is not None and obj.pk:
-            return self.readonly_fields + ['default_mu', 'default_sigma', 
-                    'default_beta', 'default_tau', 'default_draw',]
+            return self.readonly_fields + ('default_mu', 'default_sigma', 
+                    'default_beta', 'default_tau', 'default_draw',)
         return self.readonly_fields
 
 admin.site.register(Ladder, LadderAdmin)
