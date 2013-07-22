@@ -19,10 +19,14 @@
         return Math.abs(cen_x -horiz_offset) > Math.abs(cen_y - vert_offset) ? horiz : vert
     }
 
+
+
     $('[rel="tooltip"]').tooltip({delay: default_delay})
     $('[rel="tooltip-table"]').tooltip({container: 'body', delay: default_delay})
     $('[rel="tooltip-slow"]').tooltip({delay: slow_delay})
     $('[rel="popover-html"]').popover({container: 'body', placement: auto_placement, delay: default_delay, html: true, content: function() { return $("#" + $(this).attr('data-rel')).html() }, template: '<div class="popover popover-html"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'})
+
+    $('.carousel').carousel()
 
     var $popovers = $('[rel="popover"],[rel="popover-html"]')
     if ($popovers.length > 0) {

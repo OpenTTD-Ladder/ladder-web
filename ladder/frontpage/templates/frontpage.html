@@ -4,7 +4,12 @@
 {% block content %}{% spaceless %}
 <div class="row">
     <div class="span12">
-        <div class="carousel slide nomargin">
+        <div class="carousel slide nomargin" data-interval="45000" style="min-height: 200px;" id="news-carousel">
+            <ol class="carousel-indicators invert">
+            {% for newsitem in news %}
+                <li data-target="#news-carousel" data-slide-to="{{forloop.counter0}}" {% if forloop.first %} class="active"{% endif %}></li>
+            {% endfor %}
+            </ol>
             <div class="carousel-inner">
                 {% for newsitem in news %}
                 <div class="item{% if forloop.first %} active{% endif %}">
@@ -13,14 +18,14 @@
                     {% endif %}
                     <div class="container">
                         <h1>
-                            {{newsitem.translation.title}}
+                            <a href="">{{newsitem.translation.title}}</a>
                         </h1>
                         <p>
                             {{newsitem.translation.intro|safe}}
                         </p>
-                        <p>
-                            {{newsitem.author}} @ {{newsitem.authored}} <a href="">{% trans 'Read more...' %}</a>
-                        </p>
+                        <blockquote class="nomargin nopadding" style="border-left: 0px solid transparent;">
+                            <small>{{newsitem.author}} @ {{newsitem.authored}}</small>
+                        </blockquote>
                     </div>
                 </div>
                 {% endfor %}
