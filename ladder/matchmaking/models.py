@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from translations.models import Translatable, Translation
@@ -28,6 +29,21 @@ class Ladder(Translatable):
     default_draw    = models.FloatField(default = 0.01, help_text = "Estimated draw chance")
 
     admins          = models.ManyToManyField(settings.AUTH_USER_MODEL, blank = True, null = True)
+
+    _is_active = None
+    def is_active(self):
+        if self._is_active is None:
+            now = timezone.now()
+            self._is_active = (now > self.ladder_start) and (self.ladder_ends is None or (now < self.ladder_ends))
+        return self._is_active
+    is_active.boolean = True
+
+    _is_signup = None
+    def is_signup(self):
+        if self._is_signup is None:
+            self._is_signup = (self.signup_start is None) or (self.signup_ends is None)
+        return self._is_signup
+    is_signup.boolean = True
 
     _trueskill = None
     @property
