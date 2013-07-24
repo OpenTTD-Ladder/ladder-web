@@ -1,15 +1,100 @@
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from translations.models import Translatable, Translation
+from translations.managers import TranslatableManager
+
+from util.cache import cache, CACHE_MINUTE
+
 try:
     from ckeditor.fields import RichTextField
 except ImportError:
     RichTextField = models.TextField
 
 import trueskill
+
+
+class LadderManager(TranslatableManager):
+
+    def get_ladders(self):
+        active = Ladder.objects.get_active()
+        signup = Ladder.objects.get_signup()
+        upcoming = Ladder.objects.get_upcoming()
+        return {
+            'active': active,
+            'signup': signup,
+            'upcoming': upcoming,
+        }
+
+    def get_ladders_list(self, limit = None):
+        """
+        Returns the same data as `get_ladders`, but instead
+        of querying on the signup/active start/end, we use
+        cached pk lists, and grab only what we need.
+        """
+
+        active_pks = self.get_active_pks_cached()[:limit]
+        signup_pks = self.get_signup_pks_cached()[:limit]
+        upcoming_pks = self.get_upcoming_pks_cached()[:limit]
+
+        pks_to_get = list(set(active_pks + signup_pks + upcoming_pks))
+
+        items = dict([(x.pk, x) for x in self.get_query_set().filter(pk__in = pks_to_get)])
+        return {
+            'active':   [items[x] for x in active_pks],
+            'signup':   [items[x] for x in signup_pks],
+            'upcoming': [items[x] for x in upcoming_pks],
+        }
+       
+
+    @cache
+    def get_active_pks_cached(self):
+        return list(self.get_active().values_list('pk', flat=True))
+    get_active_pks_cached.seconds = CACHE_MINUTE * 15
+
+    @cache
+    def get_signup_pks_cached(self):
+        return list(self.get_signup().values_list('pk', flat=True))
+    get_signup_pks_cached.seconds = CACHE_MINUTE * 15
+
+    @cache
+    def get_upcoming_pks_cached(self):
+        return list(self.get_upcoming().values_list('pk', flat=True))
+    get_upcoming_pks_cached.seconds = CACHE_MINUTE * 15
+
+
+    def get_active(self):
+        now = timezone.now()
+        qs = self.get_query_set()
+
+        qs = qs.filter(
+                Q(Q(ladder_start__isnull = True) | Q(ladder_start__lt = now)) &
+                Q(Q(ladder_ends__isnull = True)  | Q(ladder_ends__gt = now))
+            ).order_by('ladder_ends')
+        return qs
+
+    def get_signup(self):
+        now = timezone.now()
+        qs = self.get_query_set()
+
+        qs = qs.filter(
+                Q(Q(signup_start__isnull = True) | Q(signup_start__lt = now)) &
+                Q(Q(signup_ends__isnull = True)  | Q(signup_ends__gt = now))
+            ).order_by('signup_ends')
+        return qs
+
+    def get_upcoming(self):
+        now = timezone.now()
+        qs = self.get_query_set()
+
+        qs = qs.filter(
+                Q(ladder_start__isnull = False) | Q(ladder_start__gt = now)
+            ).order_by('ladder_starts')
+        return qs
+
 
 class Ladder(Translatable):
     max_slots       = models.PositiveIntegerField(default = 0)
@@ -30,11 +115,13 @@ class Ladder(Translatable):
 
     admins          = models.ManyToManyField(settings.AUTH_USER_MODEL, blank = True, null = True)
 
+    objects         = LadderManager()
+
     _is_active = None
     def is_active(self):
         if self._is_active is None:
             now = timezone.now()
-            self._is_active = (now > self.ladder_start) and (self.ladder_ends is None or (now < self.ladder_ends))
+            self._is_active = (self.ladder_start is None or (now > self.ladder_start)) and (self.ladder_ends is None or (now < self.ladder_ends))
         return self._is_active
     is_active.boolean = True
 
