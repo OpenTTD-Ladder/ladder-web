@@ -32,4 +32,87 @@
     </div>
 </div>
 <hr>
+<div class="row">
+    <div class="span12">
+        <h2 class="al center nomargin">{% trans 'Ladders' %}</h2>
+    </div>
+    <div class="span4">
+        <table class="table table-condensed table-bordered">
+            <thead>
+                <tr>
+                    <th class="al center"{% if ladders.signup %} colspan="3"{% endif %}><h4>{% trans 'Signup open' %}</h4></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if not ladders.signup %}
+                <tr>
+                    <td class="al center">{% trans 'No signups open' %}</td>
+                </tr>
+            {% else %}{% for ladder in ladders.signup %}
+                <tr rel="tooltip-table" title="{{ladder.translation.short_desc}}">
+                    {% if ladder.signup_ends %}
+                    <td>{{ladder.signup_ends|timeuntil}}</td>
+                    {% else %}
+                    <td>{% trans 'N/A' %}</td>
+                    {% endif %}
+                    <td>{{ladder.translation.name}}</td>
+                    <td></td>
+                </tr>
+            {% endfor %}{% endif %}
+            </tbody>
+        </table>
+    </div>
+    <div class="span4">
+        <table class="table table-condensed table-bordered">
+            <thead>
+                <tr>
+                    <th class="al center"{% if ladders.active %} colspan="3"{% endif %}><h4>{% trans 'Running' %}</h4></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if not ladders.active %}
+                <tr>
+                    <td class="al center">{% trans 'No active ladders' %}</td>
+                </tr>
+            {% else %}{% for ladder in ladders.active %}
+                <tr rel="tooltip-table" title="{{ladder.translation.short_desc}}">
+                    {% if ladder.ladder_ends %}
+                    <td>{{ladder.ladder_ends|timeuntil}}</td>
+                    {% else %}
+                    <td>{% trans 'N/A' %}</td>
+                    {% endif %}
+                    <td>{{ladder.translation.name}}</td>
+                    <td></td>
+                </tr>
+            {% endfor %}{% endif %}
+            </tbody>
+        </table>
+    </div>
+    <div class="span4">
+        <table class="table table-condensed table-bordered">
+            <thead>
+                <tr>
+                    <th class="al center"{% if ladders.upcoming %} colspan="3"{% endif %}><h4>{% trans 'Upcoming' %}</h4></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if not ladders.upcoming %}
+                <tr>
+                    <td class="al center">{% trans 'No upcoming ladders' %}</td>
+                </tr>
+            {% else %}{% for ladder in ladders.upcoming %}
+                <tr rel="tooltip-table" title="{{ladder.translation.short_desc}}">
+                    {% if ladder.ladder_start %}
+                    <td>{{ladder.ladder_start|timeuntil}}</td>
+                    {% else %}
+                    <td>{% trans 'N/A' %}</td>
+                    {% endif %}
+                    <td>{{ladder.translation.name}}</td>
+                    <td></td>
+                </tr>
+            {% endfor %}{% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endspaceless %}{% endblock content %}
