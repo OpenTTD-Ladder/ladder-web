@@ -18,6 +18,14 @@ class LadderAdmin(admin.ModelAdmin):
                                 'default_tau']})
         )
 
+    list_display = [
+        'translation', 
+        'max_slots',
+        'is_active',
+        'is_signup',
+        'signup_confirm',
+    ]
+
     def get_readonly_fields(self, request, obj=None):
         if obj is not None and obj.pk:
             return self.readonly_fields + ('default_mu', 'default_sigma', 
