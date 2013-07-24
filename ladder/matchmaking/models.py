@@ -91,7 +91,7 @@ class LadderManager(TranslatableManager):
         qs = self.get_query_set()
 
         qs = qs.filter(
-                Q(ladder_start__isnull = False) | Q(ladder_start__gt = now)
+                Q(ladder_start__isnull = False) & Q(ladder_start__gt = now)
             ).order_by('ladder_start')
         return qs
 
