@@ -3,8 +3,8 @@
 
 {% block content %}{% spaceless %}
 <div class="row">
-    <div class="span12">
-        <div class="carousel slide nomargin" data-interval="45000" style="min-height: 200px;" id="news-carousel">
+    <div class="span12 jumbotron">
+        <div class="carousel slide nomargin" data-interval="45000" id="news-carousel">
             <ol class="carousel-indicators invert">
             {% for newsitem in news %}
                 <li data-target="#news-carousel" data-slide-to="{{forloop.counter0}}" {% if forloop.first %} class="active"{% endif %}></li>
