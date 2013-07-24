@@ -41,7 +41,7 @@ class Ladder(Translatable):
     _is_signup = None
     def is_signup(self):
         if self._is_signup is None:
-            self._is_signup = (self.signup_start is None) or (self.signup_ends is None)
+            self._is_signup = (self.signup_start is not None) or (self.signup_ends is not None)
         return self._is_signup
     is_signup.boolean = True
 
